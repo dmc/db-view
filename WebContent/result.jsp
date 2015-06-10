@@ -6,14 +6,14 @@ String message = bean.getMessage();
 if(message.length() > 0){
 
 	if(bean.isSucces()) {
-		out.print("<label id='message'>" + bean.getMessage() + "</label>");
+		out.print("<label class='form-control'>" + bean.getMessage() + "</label>");
 	} else {
-		out.print("<label id='error'>" + bean.getMessage() + "</label>");
+		out.print("<label class='warning' >" + bean.getMessage() + "</label>");
 	}
 
 } else {
 
-	out.println("<table border='1' cellpadding='1' cellspacing='0'>");
+	out.println("<table class=\"table table-bordered table-striped\">");
 	String[] columns = bean.getColumns();
 	List<Object[]> data =bean.getData();
 	if(columns != null) {
@@ -24,7 +24,7 @@ if(message.length() > 0){
 		for (Object[] row : data) {	
 			out.print("<tr>");
 			for (Object o : row) {
-				out.print("<td nowrap>" + o + "</td>");
+				out.print("<td class=\"text-nowrap\" scope=\"row\">" + o + "</td>");
 			}
 			out.print("</tr>");
 		}

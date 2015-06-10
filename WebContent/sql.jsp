@@ -3,19 +3,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% QueryBean bean = (QueryBean) request.getAttribute("bean"); %>
 <% if (!bean.isSucces()) {
-	out.print("<label id='error'>" + bean.getMessage() + "</label>");
+	out.print("<label id=\"error\" class=\"lead\">" + bean.getMessage() + "</label>");
 } else { %>
 
-<table>
-<tr>
-<td>login database is <%= bean.getUrl() %></td>
-</tr>
-<tr>
-</table>
+<label class="lead">login database is <%= bean.getUrl() %></label>
+<textarea class="form-control" rows="6" name="sql" id="sql"><%= bean.getQuery() %></textarea>
 
-<table>
-<tr>
-<td><textarea rows="6" cols="60" name="sql" id="sql"><%= bean.getQuery() %></textarea></td>
-</tr>
-</table>
 <% } %>

@@ -5,7 +5,6 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% 	
-	File[] css = new File(application.getRealPath("/css")).listFiles(new CssFileFilter());
 	QueryBean bean = (QueryBean) request.getAttribute("bean"); 
 	if(bean == null) {bean = new QueryBean();}
 %>
@@ -16,7 +15,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script type="text/javascript" language="javascript" src="<%= application.getContextPath() %>/javascript/jquery.js"></script>
 <script type="text/javascript" language="javascript" src="<%= application.getContextPath() %>/javascript/jquery-ui.js"></script>
-<link id="theme" rel="stylesheet" href="<%= application.getContextPath() %>/css/default.css">
+<script type="text/javascript" language="javascript" src="<%= application.getContextPath() %>/javascript/bootstrap.js"></script>
+<script type="text/javascript" language="javascript" src="<%= application.getContextPath() %>/javascript/npm.js"></script>
+<link rel="stylesheet" href="<%= application.getContextPath() %>/css/bootstrap-theme.css">
+<link rel="stylesheet" href="<%= application.getContextPath() %>/css/bootstrap.css">
 
 
 <script language="JavaScript" type="text/javascript">
@@ -57,6 +59,8 @@ jQuery(function ($) {
 
     $('#execute').click(function() {
 
+    	var $btn = $(this).button('loading');
+
     	$.ajax({
     		  url: "<%= application.getContextPath() %>/action",
     		  type: "post",
@@ -64,6 +68,8 @@ jQuery(function ($) {
     		}).done(function(data) {
     			$('#result').html(data);
     		});
+    	
+    	$btn.button('reset');
     });
 
 	$('#history').click(function() {
@@ -102,82 +108,47 @@ function setParameter() {
 	$("#password").val(presets[value][4]);
 };
 
-function changeTheme() {
-	$('#theme').attr("href",$("#css-list").val());
-};
 
 </script>
 
 <title>db-view</title>
 </head>
 <body>
-
-<div id="css-selector">
-<table>
-<tr>
-<td>theme</td>
-<td>
-<select id="css-list" onchange="changeTheme()">
-<%
-for (File file : css) {	
-	if("default.css".equals(file.getName())){
-		out.print("<option selected='true' value= '" +  application.getContextPath() + "/css/" + file.getName() + "'>");
-	} else {
-		out.print("<option value= '" +  application.getContextPath() + "/css/" + file.getName() + "'>");
-	}
-	out.print(file.getName());
-	out.println("</option>");
-}
-%>
-</select>
-</td>
-</tr>
-</table>
-<hr/>
-</div>
-
-
+<div class="container">
+ 
 <div id="header">
-<table cellpadding="" class="header">
-<tr>
-<td align="left"><h1>db-view 3.0</h1></td>
-</tr>
-<tr>
-<td align="right">buid on 9th June 2015.<br>developed by dmc system service.</td>
-</tr>
-</table>
-<hr/>
+<label class="lead">db-view 3.0 with Bootstrap</label>
 </div>
-
-<div id="login-parameter">
-<table>
+ 
+<div class="navbar-form navbar-left" id="login-parameter">
+<table class="table">
 <tr>
-<td>database</td>
+<td><label class="col-sm-1 control-label">database</label></td>
 <td>
-<select id="preset" onchange="setParameter()">
+<select class="form-control" id="preset" onchange="setParameter()">
 </select>
 </td>
 </tr>
 </table>
-<table>
+<table class="table">
 <tr>
-<td>driver</td>
-<td><input id="driver" name="driver" type="text" size="40pix" value="<%= bean.getDriver() %>"/></td>
+<td><label class="col-sm-1 control-label">driver</label></td>
+<td><input class="form-control" id="driver" name="driver" type="text" value="<%= bean.getDriver() %>"/></td>
 </tr>
 <tr>
-<td>url</td>
-<td><input id="url" name="url" type="text" size="40pix" value="<%= bean.getUrl() %>"/></td>
+<td><label class="col-sm-1 control-label">url</label></td>
+<td><input class="form-control" id="url" name="url" type="text" value="<%= bean.getUrl() %>"/></td>
 </tr>
 <tr>
-<td>user</td>
-<td><input id="user" name="user" type="text" size="40pix" value="<%= bean.getUser() %>"/></td>
+<td><label class="col-sm-1 control-label">user</label></td>
+<td><input class="form-control" id="user" name="user" type="text" value="<%= bean.getUser() %>"/></td>
 </tr>
 <tr>
-<td>password</td>
-<td><input id="password" name="password" type="text" size="40pix" value="<%= bean.getPassword() %>"/></td>
+<td><label class="col-sm-1 control-label">password</label></td>
+<td><input class="form-control" id="password" name="password" type="text" value="<%= bean.getPassword() %>"/></td>
 </tr>
 </table>
-<input class="button" type="button" value="login" id="login"/>
+<input class="btn btn-primary" type="button" value="login" id="login"/>
 <hr/>
 </div>
 
@@ -186,9 +157,9 @@ for (File file : css) {
 <div id="query-buttons">
 <table>
 <tr>
-<td><input type="button" value="execute" id="execute"/></td>
-<td><input type="button" value="history" id="history"/></td>
-<td><input type="button" value="exit" id="exit"/></td>
+<td><input class="btn btn-primary" type="button" value="execute" id="execute"/></td>
+<td><input class="btn btn-primary" type="button" value="history" id="history"/></td>
+<td><input class="btn btn-primary" type="button" value="exit" id="exit"/></td>
 </tr>
 </table>
 <hr/>
@@ -199,7 +170,7 @@ for (File file : css) {
 
 <div id="dialog" title="history">
 </div>
-
+</div>
 
 </body>
 </html>
