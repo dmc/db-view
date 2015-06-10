@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="build-project" name="db-view">
+	<property environment="env"/>
+	<property name="HOME" value="."/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="target" value="1.8"/>
+	<property name="source" value="1.8"/>
+	<path id="tomcat.library.classpath">
+		<pathelement location="/usr/local/Cellar/tomcat/8.0.21/libexec/lib/servlet-api.jar"/>
+	</path>
+	<path id="webapp.library.classpath">
+		<pathelement location="${HOME}/WebContent/WEB-INF/lib/mysql-connector-java-5.1.35-bin.jar"/>
+		<pathelement location="${HOME}/WebContent/WEB-INF/lib/postgresql-9.4.jar"/>
+	</path>
+	<path id="db-view.classpath">
+		<pathelement location="build/classes"/>
+		<path refid="tomcat.library.classpath"/>
+		<path refid="webapp.library.classpath"/>
+	</path>
+	<target name="init">
+		<mkdir dir="build/classes"/>
+		<copy includeemptydirs="false" todir="build/classes">
+			<fileset dir="src">
+				<exclude name="**/*.launch"/>
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="build/classes"/>
+	</target>
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="build/classes" includeantruntime="false" source="${source}" target="${target}">
+			<src path="src"/>
+			<classpath refid="db-view.classpath"/>
+		</javac>
+		<jar destfile="WebContent/WEB-INF/lib/dbview.jar">
+			<fileset dir="build/classes">
+				<include name="**/*.class" />
+			</fileset>
+			<fileset dir="src">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+	<target name="war" depends="build-project">
+		<war destfile="db-view.war" webxml="WebContent/WEB-INF/web.xml" manifest="WebContent/META-INF/MANIFEST.MF">
+			<fileset dir="WebContent">
+				<include name="**/*.*" />
+				<exclude name="WEB-INF/web.xml" />
+			</fileset>
+			<lib file="WebContent/WEB-INF/lib/*.jar" />
+		</war>
+	</target>
+</project>
