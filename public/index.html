@@ -14,7 +14,7 @@
     var presets = [
       ["", "", "", "", ""],
       ["mysql-localhost", "mysql", "localhost", "3306", "information_schema", "root", "root001"],
-      ["postgres-template", "postgresql", "localhost", "5432", "database", "user", "password"],
+      ["postgres-template", "postgresql", "localhost", "5432", "world", "dmc", "dmc001"],
       ["mysql-template", "mysql", "localhost", "3306",  "database", "user", "password"],
       ["oracle-template", "oracle", "localhost", "1521", "database",  "user", "password"]
     ];
@@ -64,9 +64,6 @@
 
     function showResultSet(data){
 
-
-        console.log(data);
-
         $("#result-set").html("");
         var $head = null,
         $body = $('<tbody>');
@@ -86,16 +83,16 @@
             });
           })).appendTo($body);
         });
-
+        $("#result-set").attr("border","1");
         $("#result-set").append($head).append($body);
 
     }
 
     function showErrorMessage(XMLHttpRequest, textStatus, errorThrown){
-      console.log(textStatus);
-      console.log(errorThrown.message);
       $("#result-set").html("");
-
+      $body = $('<tbody>').append($('<tr>')).append($('<td>',{id:'error',text: errorThrown}));
+      $("#result-set").attr("border","0");
+      $("#result-set").append($body);
     }
 
     function changeTheme() {
@@ -201,7 +198,7 @@
   </div>
 
   <div id="result">
-    <table id='result-set'>
+    <table id='result-set' border='1' cellpadding='1' cellspacing='0'>
     </table>
   </div>
 

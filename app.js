@@ -32,6 +32,9 @@ app.get('/', function(req, res){
 });
 app.post('/query', query.execute);
 
+process.on('uncaughtException', function (err) {
+  console.log('Caught exception: ' + err);
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

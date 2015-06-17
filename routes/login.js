@@ -18,7 +18,8 @@ exports.login = function(req, res) {
     });
     res.send('{"status": "success"}');
   } catch (err) {
-    throw err;
+    res.statusCode = 503;
+    res.statusMessage = err.message;
   } finally {
     if (connection) {
       connection.end();
