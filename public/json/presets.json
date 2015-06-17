@@ -1,0 +1,29 @@
+{
+  "title": "",
+  "database": "",
+  "host": "",
+  "port": "",
+  "user": "",
+  "password": ""
+}, {
+  "title": "mysql-localhost",
+  "database": "mysql",
+  "host": "localhost",
+  "port": "3306",
+  "user": "root",
+  "password": "root001"
+}, {
+  "title": "mysql-template",
+  "database": "mysql",
+  "host": "localhost",
+  "port": "3306",
+  "user": "user",
+  "password": "password"
+}, {
+  "title": "postgresql-template",
+  "database": "postgresql",
+  "host": "localhost",
+  "port": "5432",
+  "user": "user",
+  "password": "password"
+}
