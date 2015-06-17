@@ -5,10 +5,13 @@
 
 var express = require('express')
   , query = require('./routes/query')
+  , mysqlquery = require('./routes/mysql-query')
+  , postgresqlquery = require('./routes/postgresql-query')
   , http = require('http')
   , path = require('path');
 
 var app = express();
+var router = express.Router();
 
 // all environments
 app.set('port', process.env.PORT || 3000);
@@ -27,10 +30,29 @@ if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
 
+
 app.get('/', function(req, res){
   res.sendfile(path.join(__dirname, 'public/index.html'));
 });
-app.post('/query', query.execute);
+
+app.post('/query', function(req, res){
+
+  if(req.body.vendor === "mysql"){
+
+    mysqlquery.execute(req, res);
+
+  } else if (req.body.vendor === "postgresql") {
+
+    postgresqlquery.execute(req, res);
+
+  } else {
+
+    res.statusCode = 503;
+    res.statusMessage = "unsupport database";
+    res.end();
+  }
+
+});
 
 process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err);
