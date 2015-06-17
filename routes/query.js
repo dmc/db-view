@@ -20,6 +20,7 @@ exports.execute = function(req, res) {
   try {
     connection.query(req.body.query, function(err, rows, fields) {
       if (err) {
+    	
         res.json(err);
       }
       res.json(rows);
