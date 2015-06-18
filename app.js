@@ -4,11 +4,12 @@
  */
 
 var express = require('express')
-  , query = require('./routes/query')
-  , mysqlquery = require('./routes/mysql-query')
-  , postgresqlquery = require('./routes/postgresql-query')
-  , http = require('http')
-  , path = require('path');
+, mysql_login = require('./routes/mysql-login')
+, postgresql_login = require('./routes/postgresql-login')
+, mysql_query = require('./routes/mysql-query')
+, postgresql_query = require('./routes/postgresql-query')
+, http = require('http')
+, path = require('path');
 
 var app = express();
 var router = express.Router();
@@ -35,15 +36,38 @@ app.get('/', function(req, res){
   res.sendfile(path.join(__dirname, 'public/index.html'));
 });
 
+
+//login
+app.post('/login', function(req, res){
+
+  if(req.body.vendor === "mysql"){
+
+    mysql_login.login(req, res);
+
+  } else if (req.body.vendor === "postgresql") {
+
+    postgresql_login.login(req, res);
+
+  } else {
+
+    res.statusCode = 503;
+    res.statusMessage = "unsupport database";
+    res.end();
+  }
+
+});
+
+
+//query
 app.post('/query', function(req, res){
 
   if(req.body.vendor === "mysql"){
 
-    mysqlquery.execute(req, res);
+    mysql_query.execute(req, res);
 
   } else if (req.body.vendor === "postgresql") {
 
-    postgresqlquery.execute(req, res);
+    postgresql_query.execute(req, res);
 
   } else {
 

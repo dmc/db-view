@@ -15,14 +15,14 @@ exports.execute = function(req, res) {
     database: req.body.database
   });
 
-  connection.connect();
 
   try {
+    connection.connect();
     connection.query(req.body.query, function(err, rows, fields) {
       if (err) {
-
         res.statusCode = 503;
         res.statusMessage = err.message;
+        res.end();
       }
       res.json(rows);
     });

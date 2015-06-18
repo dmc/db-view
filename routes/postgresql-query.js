@@ -1,26 +1,26 @@
 exports.execute = function(req, res) {
 
-    var pg = require('pg');
-    var clinet = require('pg').Client;
-    var conString = "postgres://"+ req.body.user+":"+ req.body.password + "@" + req.body.host + ":" + req.body.port +"/" + req.body.database;
-    
-    try {
-      pg.connect(conString, function(err, client, done) {
-        client.query(req.body.query, function(err, result) {
-          done();
-          console.log(result);
-          res.json(result.rows);
+	var pg = require('pg');
+	var conString = "postgres://"+ req.body.user+":"+ req.body.password + "@" + req.body.host + ":" + req.body.port +"/" + req.body.database;
 
-        });
-      });
+	pg.connect(conString, function(err, client, done) {
+	  if(err) {
+			res.statusCode = 503;
+			res.statusMessage = err.message;
+			res.end();
+	  }
+		client.query(req.body.query, function(err, result) {
+	    //call `done()` to release the client back to the pool
+	    done();
 
-    } catch (err) {
+	    if(err) {
+				res.statusCode = 503;
+				res.statusMessage = err.message;
+				res.end();
+	    }
 
-      res.statusCode = 503;
-      res.statusMessage = err.message;
+			res.json(result.rows);
+	  });
+	});
 
-    } finally {
-      client.end();
-    }
-
-};
+}

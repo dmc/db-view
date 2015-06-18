@@ -37,6 +37,25 @@
       });
 
 
+      $('#login').click(function() {
+
+        $.ajax({
+          url: "/login",
+          type: "post",
+          dataType: "json",
+          data: {vendor: $('#vendor').val(),
+                  host: $('#host').val(),
+                  port: $('#port').val(),
+                  database: $('#database').val(),
+                  user: $('#user').val(),
+                  password: $('#password').val()}
+        }).done(function(data) {
+          showMessage($("#login-message-table"), "login-database is " + $('#vendor').val() + "://" + $('#host').val() + "/" + $('#database').val());
+        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+          showErrorMessage($("#login-message-table") ,errorThrown);
+    		});
+      });
+
 
       $('#execute').click(function() {
 
@@ -52,9 +71,9 @@
                   password: $('#password').val(),
                   query: $('#sql').val()}
         }).done(function(data) {
-    			showResultSet(data);
+    			showResultSet($("#result-set"),data);
         }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-          showErrorMessage(XMLHttpRequest, textStatus, errorThrown);
+          showErrorMessage($('#result-set'), errorThrown);
     		});
       });
 
@@ -62,9 +81,9 @@
 
     });
 
-    function showResultSet(data){
+    function showResultSet(target,data){
 
-        $("#result-set").html("");
+        target.html("");
         var $head = null,
         $body = $('<tbody>');
 
@@ -83,16 +102,26 @@
             });
           })).appendTo($body);
         });
-        $("#result-set").attr("border","1");
-        $("#result-set").append($head).append($body);
+        target.attr("border","1");
+        target.append($head).append($body);
 
     }
 
-    function showErrorMessage(XMLHttpRequest, textStatus, errorThrown){
-      $("#result-set").html("");
-      $body = $('<tbody>').append($('<tr>')).append($('<td>',{id:'error',text: errorThrown}));
-      $("#result-set").attr("border","0");
-      $("#result-set").append($body);
+
+    function showMessage(target,message){
+      target.html("");
+      $body = $('<tbody>').append($('<tr>'));
+      $body.append($('<td>',{text: message}));
+      target.attr("border","0");
+      target.append($body);
+    }
+
+    function showErrorMessage(target,errorThrown){
+      target.html("");
+      $body = $('<tbody>').append($('<tr>'));
+      $body.append($('<td>',{id:'error',text: errorThrown}));
+      target.attr("border","0");
+      target.append($body);
     }
 
     function changeTheme() {
@@ -173,6 +202,11 @@
     </table>
     <input class="button" type="button" value="login" id="login" />
     <hr/>
+  </div>
+
+  <div id="login-message">
+    <table id='login-message-table'>
+    </table>
   </div>
 
   <div id="query-box">
