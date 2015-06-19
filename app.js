@@ -4,10 +4,9 @@
  */
 
 var express = require('express')
-, mysql_login = require('./routes/mysql-login')
-, postgresql_login = require('./routes/postgresql-login')
 , mysql_query = require('./routes/mysql-query')
 , postgresql_query = require('./routes/postgresql-query')
+, debug = require('./routes/debug')
 , http = require('http')
 , path = require('path');
 
@@ -37,27 +36,6 @@ app.get('/', function(req, res){
 });
 
 
-//login
-app.post('/login', function(req, res){
-
-  if(req.body.vendor === "mysql"){
-
-    mysql_login.login(req, res);
-
-  } else if (req.body.vendor === "postgresql") {
-
-    postgresql_login.login(req, res);
-
-  } else {
-
-    res.statusCode = 503;
-    res.statusMessage = "unsupport database";
-    res.end();
-  }
-
-});
-
-
 //query
 app.post('/query', function(req, res){
 
@@ -79,7 +57,8 @@ app.post('/query', function(req, res){
 });
 
 process.on('uncaughtException', function (err) {
-  console.log('Caught exception: ' + err);
+	console.log('Caught exception: ' + err);
+	debug.log(err);
 });
 
 http.createServer(app).listen(app.get('port'), function(){

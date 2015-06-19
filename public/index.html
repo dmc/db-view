@@ -2,15 +2,15 @@
 <html>
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <script type="text/javascript" language="javascript" src="/javascript/jquery.js"></script>
-  <script type="text/javascript" language="javascript" src="/javascript/jquery-ui.js"></script>
-  <script type="text/javascript" language="javascript" src="/javascript/jquery.dynatable.js"></script>
-  <link id="theme" rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/jquery.dynatable.css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript" language="javascript" src="/javascript/jquery.js"></script>
+<script type="text/javascript" language="javascript" src="/javascript/jquery-ui.js"></script>
+<script type="text/javascript" language="javascript" src="/javascript/jquery.dynatable.js"></script>
+<link id="theme" rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/css/jquery.dynatable.css">
 
 
-  <script language="JavaScript" type="text/javascript">
+<script language="JavaScript" type="text/javascript">
     var presets = [
       ["", "", "", "", ""],
       ["mysql-localhost", "mysql", "localhost", "3306", "information_schema", "root", "root001"],
@@ -22,6 +22,8 @@
 
     jQuery(function($) {
 
+    	setAppearance("login");
+    	
       for (var i = 0; i < presets.length; i++) {
         $("#preset").append($('<option>').html(presets[i][0]).val(i));
       }
@@ -40,20 +42,22 @@
       $('#login').click(function() {
 
         $.ajax({
-          url: "/login",
+          url: "/query",
           type: "post",
           dataType: "json",
-          data: {vendor: $('#vendor').val(),
-                  host: $('#host').val(),
-                  port: $('#port').val(),
-                  database: $('#database').val(),
-                  user: $('#user').val(),
-                  password: $('#password').val()}
+          data: {event: 'login',
+      	  		vendor: $('#vendor').val(),
+	            host: $('#host').val(),
+                port: $('#port').val(),
+                database: $('#database').val(),
+                user: $('#user').val(),
+                password: $('#password').val()}
         }).done(function(data) {
+          setAppearance("sql");
           showMessage($("#login-message-table"), "login-database is " + $('#vendor').val() + "://" + $('#host').val() + "/" + $('#database').val());
         }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
           showErrorMessage($("#login-message-table") ,errorThrown);
-    		});
+    	});
       });
 
 
@@ -63,23 +67,37 @@
           url: "/query",
           type: "post",
           dataType: "json",
-          data: {vendor: $('#vendor').val(),
-                  host: $('#host').val(),
+          data: {event: 'execute',
+        	  	vendor: $('#vendor').val(),
+              	 host: $('#host').val(),
                   port: $('#port').val(),
                   database: $('#database').val(),
                   user: $('#user').val(),
                   password: $('#password').val(),
                   query: $('#sql').val()}
         }).done(function(data) {
-    			showResultSet($("#result-set"),data);
+        	
+        	try {
+        		var obj = $.parseJSON(data);
+                showMessage($("#result-set"), obj.affected + " data has updated.");
+			} catch (e) {
+        		showResultSet($("#result-set"),data);
+			}
         }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
           showErrorMessage($('#result-set'), errorThrown);
-    		});
+    	});
       });
 
 
+      
+      $('#exit').click(function() {
+      	setAppearance("login");
+      });
+
 
     });
+
+
 
     function showResultSet(target,data){
 
@@ -124,120 +142,134 @@
       target.append($body);
     }
 
+    function setAppearance(mode){
+    	
+    	if (mode === "login") {
+            $("#login-parameter").show();
+            $("#login-message-table").html("");
+          	$("#query-buttons").hide();
+            $("#sql").val("");
+            $("#query-box").hide();
+          	$("#result-set").html("");
+    		if($('#dialog').dialog("instance")){
+    	        $("#dialog").html("");
+    			$('#dialog').dialog("destroy");
+    		}
+    	} else if (mode == "sql") {
+            $("#login-parameter").hide();
+          	$("#query-buttons").show();
+            $("#sql").val("");
+            $("#query-box").show();
+          	$("#result-set").html("");
+    		if($('#dialog').dialog("instance")){
+    	        $("#dialog").html("");
+    			$('#dialog').dialog("destroy");
+    		}
+    	}
+    	
+    }
+    
     function changeTheme() {
       $('#theme').attr("href", $("#css-list").val());
     };
 
   </script>
 
-  <title>node-view</title>
+<title>node-view</title>
 </head>
 
 <body>
 
-  <div id="header">
-    <table cellpadding="" class="header">
-      <tr>
-        <td align="left">
-          <h1>
-            db-view
-          </h1>
-        </td>
-      </tr>
-      <tr>
-        <td align="right">buid on 16th June 2015.
-          <br>developed by dmc system service.</td>
-      </tr>
-    </table>
-    <hr/>
-  </div>
+	<div id="header">
+		<table cellpadding="" class="header">
+			<tr>
+				<td align="left">
+					<h1>db-view</h1>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">buid on 16th June 2015. <br>developed by
+					dmc system service.
+				</td>
+			</tr>
+		</table>
+		<hr />
+	</div>
 
-  <div id="login-parameter">
-    <table>
-      <tr>
-        <td>database</td>
-        <td>
-          <select id="preset">
-          </select>
-        </td>
-      </tr>
-    </table>
-    <table>
-      <tr>
-        <td>vender</td>
-        <td>
-          <input id="vendor" name="vendor" type="text" size="40pix" value="" />
-        </td>
-      </tr>
-      <tr>
-        <td>host</td>
-        <td>
-          <input id="host" name="host" type="text" size="40pix" value="" />
-        </td>
-      </tr>
-      <tr>
-        <td>port</td>
-        <td>
-          <input id="port" name="port" type="text" size="40pix" value="" />
-        </td>
-      </tr>
-      <tr>
-        <td>database</td>
-        <td>
-          <input id="database" name="database" type="text" size="40pix" value="" />
-        </td>
-      </tr>
-      <tr>
-        <td>user</td>
-        <td>
-          <input id="user" name="user" type="text" size="40pix" value="" />
-        </td>
-      </tr>
-      <tr>
-        <td>password</td>
-        <td>
-          <input id="password" name="password" type="text" size="40pix" value="" />
-        </td>
-      </tr>
-    </table>
-    <input class="button" type="button" value="login" id="login" />
-    <hr/>
-  </div>
+	<div id="login-parameter">
+		<table>
+			<tr>
+				<td>database</td>
+				<td><select id="preset">
+				</select></td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<td>vender</td>
+				<td><input id="vendor" name="vendor" type="text" size="40pix"
+					value="" /></td>
+			</tr>
+			<tr>
+				<td>host</td>
+				<td><input id="host" name="host" type="text" size="40pix"
+					value="" /></td>
+			</tr>
+			<tr>
+				<td>port</td>
+				<td><input id="port" name="port" type="text" size="40pix"
+					value="" /></td>
+			</tr>
+			<tr>
+				<td>database</td>
+				<td><input id="database" name="database" type="text"
+					size="40pix" value="" /></td>
+			</tr>
+			<tr>
+				<td>user</td>
+				<td><input id="user" name="user" type="text" size="40pix"
+					value="" /></td>
+			</tr>
+			<tr>
+				<td>password</td>
+				<td><input id="password" name="password" type="text"
+					size="40pix" value="" /></td>
+			</tr>
+		</table>
+		<input class="button" type="button" value="login" id="login" />
+		<hr />
+	</div>
 
-  <div id="login-message">
-    <table id='login-message-table'>
-    </table>
-  </div>
+	<div id="login-message">
+		<table id='login-message-table'>
+		</table>
+	</div>
 
-  <div id="query-box">
-    <table>
-      <tr>
-        <td>
-          <textarea rows="6" cols="60" name="sql" id="sql" value="">
-          </textarea>
-        </td>
-      </tr>
-    </table>
-  </div>
+	<div id="query-box">
+		<table>
+			<tr>
+				<td><textarea rows="6" cols="60" name="sql" id="sql" value="">
+          </textarea></td>
+			</tr>
+		</table>
+	</div>
 
-  <div id="query-buttons">
-    <table>
-      <tr>
-        <td>
-          <input type="button" value="execute" id="execute" />
-        </td>
-      </tr>
-    </table>
-    <hr/>
-  </div>
+	<div id="query-buttons">
+		<table>
+			<tr>
+				<td><input type="button" value="execute" id="execute" /></td>
+				<td><input type="button" value="exit" id="exit" /></td>
+			</tr>
+		</table>
+		<hr />
+	</div>
 
-  <div id="result">
-    <table id='result-set' border='1' cellpadding='1' cellspacing='0'>
-    </table>
-  </div>
+	<div id="result">
+		<table id='result-set' border='1' cellpadding='1' cellspacing='0'>
+		</table>
+	</div>
 
-  <div id="dialog" title="history">
-  </div>
+	<div id="dialog" title="history"></div>
 
 
 </body>
