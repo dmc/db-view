@@ -13,7 +13,7 @@ public class ClassInspector {
 		String returnValue = null;
 		for (Method method : methods) {
 			methodName = method.getName();
-			if (method.getParameterTypes().length == 0 && !method.getReturnType().equals(Void.TYPE)){
+			if (method.getParameterCount() == 0 && !method.getReturnType().equals(Void.TYPE)){
 				try {
 					returnValue = method.invoke(o).toString();
 					result.put(methodName, returnValue);

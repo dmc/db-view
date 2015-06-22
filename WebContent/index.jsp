@@ -18,17 +18,11 @@
 <script type="text/javascript" language="javascript" src="<%= application.getContextPath() %>/javascript/jquery-ui.js"></script>
 <link id="theme" rel="stylesheet" href="<%= application.getContextPath() %>/css/default.css">
 
+
 <script language="JavaScript" type="text/javascript">
 
 var presets = [ 
 ["","","","",""], 
-["postgres-localhost","org.postgresql.Driver","jdbc:postgresql://localhost:5432/world","dmc","dmc001"], 
-["postgres-heroku","org.postgresql.Driver","jdbc:postgres://ec2-54-83-205-164.compute-1.amazonaws.com:5432/d9v6d5uqacptit","kyuljdoqfyziks","x9LvzxTGy8izs-7NFY30VDhqT0"], 
-["postgres-heroku-world","org.postgresql.Driver","jdbc:postgres://ec2-54-83-205-164.compute-1.amazonaws.com:5432/world","kyuljdoqfyziks","x9LvzxTGy8izs-7NFY30VDhqT0"], 
-["mysql-heroku","com.mysql.jdbc.Driver","jdbc:mysql://us-cdbr-iron-east-02.cleardb.net:3306/heroku_126abff0eac31c8","bf05d3bb2265c3","fc67f770"],
-["mysql-heroku-information_schema","com.mysql.jdbc.Driver","jdbc:mysql://us-cdbr-iron-east-02.cleardb.net:3306/information_schema","bf05d3bb2265c3","fc67f770"],
-["mysql-localhost-world","com.mysql.jdbc.Driver","jdbc:mysql://localhost/world","root","root001"],
-["mysql-localhost-information_schema","com.mysql.jdbc.Driver","jdbc:mysql://localhost/information_schema","root","root001"],
 ["postgres-template","org.postgresql.Driver","jdbc:postgresql://localhost/db","user","password"], 
 ["mysql-template","com.mysql.jdbc.Driver","jdbc:mysql://localhost/mysql","user","password"],
 ["oracle-template","oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@host:port:db","user","password"]
@@ -43,8 +37,6 @@ jQuery(function ($) {
 	$("#query-buttons").hide();
 
 	$('#login').click(function() {
-
-    	$("input[type='button']").prop("disabled",true);
 	
     	$.ajax({
     		  url: "<%=application.getContextPath()%>/action",
@@ -59,25 +51,19 @@ jQuery(function ($) {
                   	$("#query-buttons").show();
               	} 
               }).always(function() {
-  		    	$("input[type='button']").prop("disabled",false);
-	  		  });
+    		  });
     	
        });
 
     $('#execute').click(function() {
 
-    	$("input[type='button']").prop("disabled",true);
-
     	$.ajax({
     		  url: "<%= application.getContextPath() %>/action",
     		  type: "post",
     		  data: {event: "execute",driver: $('#driver').val(),url: $('#url').val(),user: $('#user').val(),password: $('#password').val(),query: $('#sql').val(),}
-		  }).done(function(data) {
-				$('#result').html(data);
-    		
-		  }).always(function() {
-		    	$("input[type='button']").prop("disabled",false);
-	  	});
+    		}).done(function(data) {
+    			$('#result').html(data);
+    		});
     });
 
 	$('#history').click(function() {
