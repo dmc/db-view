@@ -1,8 +1,8 @@
-<%@page import="com.service.dmc.util.CssFileFilter"%>
 <%@page import="java.io.File"%>
 <%@page import="java.io.FileFilter"%>
-<%@page import="com.service.dmc.sql.QueryBean"%>
 <%@page import="java.util.List"%>
+<%@page import="com.service.dmc.sql.QueryBean"%>
+<%@page import="com.service.dmc.util.CssFileFilter"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% 	
 	File[] css = new File(application.getRealPath("/css")).listFiles(new CssFileFilter());
@@ -37,6 +37,8 @@ jQuery(function ($) {
 	$("#query-buttons").hide();
 
 	$('#login').click(function() {
+
+		$("input[type='button']").prop("disabled",true);
 	
     	$.ajax({
     		  url: "<%=application.getContextPath()%>/action",
@@ -51,11 +53,14 @@ jQuery(function ($) {
                   	$("#query-buttons").show();
               	} 
               }).always(function() {
-    		  });
+              	$("input[type='button']").prop("disabled",false);
+              });
     	
        });
 
     $('#execute').click(function() {
+
+      	$("input[type='button']").prop("disabled",true);
 
     	$.ajax({
     		  url: "<%= application.getContextPath() %>/action",
@@ -63,6 +68,8 @@ jQuery(function ($) {
     		  data: {event: "execute",driver: $('#driver').val(),url: $('#url').val(),user: $('#user').val(),password: $('#password').val(),query: $('#sql').val(),}
     		}).done(function(data) {
     			$('#result').html(data);
+            }).always(function() {
+              	$("input[type='button']").prop("disabled",false);
     		});
     });
 

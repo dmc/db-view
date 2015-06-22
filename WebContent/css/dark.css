@@ -3,7 +3,7 @@
 body{
 	font-family:"Montserrat",sans-serif;font-weight:700;
 	background-color: white;
-	color:#e7b90c;
+	color:#00ff00;
 }
 
 label#error{
@@ -13,7 +13,7 @@ label#error{
 }
 
 div#result > table > tbody > tr > th {
-	background-color: #e7b90c;
+	background-color: #00ff00;
 	font-size:100%;
 	font:inherit;
 	color: white;
