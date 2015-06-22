@@ -3,10 +3,10 @@
 	<property environment="env"/>
 	<property name="HOME" value="."/>
 	<property name="debuglevel" value="source,lines,vars"/>
-	<property name="target" value="1.8"/>
-	<property name="source" value="1.8"/>
+	<property name="target" value="1.7"/>
+	<property name="source" value="1.7"/>
 	<path id="tomcat.library.classpath">
-		<pathelement location="/usr/local/Cellar/tomcat/8.0.21/libexec/lib/servlet-api.jar"/>
+		<pathelement location="/usr/local/Cellar/tomcat7/7.0.62/libexec/lib/servlet-api.jar"/>
 	</path>
 	<path id="webapp.library.classpath">
 		<pathelement location="${HOME}/WebContent/WEB-INF/lib/mysql-connector-java-5.1.35-bin.jar"/>
