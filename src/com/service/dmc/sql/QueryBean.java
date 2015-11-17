@@ -4,6 +4,7 @@ import java.util.List;
 
 public class QueryBean {
 
+	//TODO fix bug "SHOW SQL does not work" 
 	private static final String[] NOT_DML_KEYWORD = {"SELECT","SHOW"};
 	private String event = "";
 	private String driver = "";
