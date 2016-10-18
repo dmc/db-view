@@ -23,4 +23,4 @@ if you customize add css then your css will be shown in theme selectbox.
 #note
 db-view.war does not include oracle jdbc.jar
 
-build.xml requirs for modify path of servlet-api.jar to run
+To run the build.xml requires correct path to the "servlet-api.jar"
