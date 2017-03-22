@@ -23,6 +23,7 @@
 
 var presets = [ 
 ["","","","",""], 
+["jimcondb","com.mysql.jdbc.Driver","jdbc:mysql://localhost:3306/jimcondb","fromclient",""],
 ["postgres-template","org.postgresql.Driver","jdbc:postgresql://localhost/db","user","password"], 
 ["mysql-template","com.mysql.jdbc.Driver","jdbc:mysql://localhost/mysql","user","password"],
 ["oracle-template","oracle.jdbc.driver.OracleDriver","jdbc:oracle:thin:@host:port:db","user","password"]
