@@ -49,10 +49,22 @@ public class SQL {
 		this.result = preparedStatement.executeQuery();
 	}
 
+	/**
+	 * call executeUpdate method of stored preparedStatement in this class
+	 * and store ResultSet in this class
+	 * @return
+	 * @throws SQLException
+	 */
 	public int executeUpdate() throws SQLException {
 		return preparedStatement.executeUpdate();
 	}
 
+	/**
+	 * Call getObjectMethod of stored resultSet in this class
+	 * @param columnIndex 
+	 * @return
+	 * @throws SQLException
+	 */
 	public Object getObject(int columnIndex) throws SQLException {
 		return result.getObject(columnIndex);
 	}
