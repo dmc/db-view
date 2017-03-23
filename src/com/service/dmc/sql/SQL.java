@@ -8,6 +8,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+/**
+ * Facade Class of JDBC Interface Class
+ * @author dmc
+ *
+ */
 public class SQL {
 
 	Connection connection = null;
@@ -18,14 +23,28 @@ public class SQL {
 		this.connection = connection;
 	}
 	
+	/**
+	 * Create PreparedStatement class and store inside
+	 * @param sql
+	 * @throws SQLException
+	 */
 	public void prepareStatement(String sql) throws SQLException {
 		this.preparedStatement = connection.prepareStatement(sql);
 	}
 	
+	/**
+	 * Get ResultSetMetaData from stored preparedStatement in this class
+	 * @return
+	 * @throws SQLException
+	 */
 	public ResultSetMetaData getMetaData() throws SQLException {
 		return preparedStatement.getMetaData();
 	}
 	
+	/**
+	 * call executeQuery method of stored preparedStatement in this class  
+	 * @throws SQLException
+	 */
 	public void executeQuery() throws SQLException {
 		this.result = preparedStatement.executeQuery();
 	}
