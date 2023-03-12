@@ -1,26 +1,23 @@
-# db-view
-database utility
+## Overview
+- database utility
 
-# required
-j2ee container
+## Build
+```bash
+./gradlew clean build
+```
+## Run on docker
+```bash
+docker compose up -d
+```
 
-# try
-download db-view.war and deploy it on your j2ee container.
+## Deploy war file
+deploy `build/libs/db-view.war` file to j2ee container
 
-or access herokapp 
+## customize preset of database parameters
+- require rebuild
+  - modify preset array in `src/main/webapp/javascript/preset.js`
 
-https://db-view.herokuapp.com/
-
-# customize jdbc login parameter presets
-modify presets array in index.jsp
-then jdbc presets will be shown in databases selectbox.
-
-# customize css 
-
-db-view includes 3 css as default.
-if you customize add css then your css will be shown in theme selectbox.
-
-#note
-db-view.war does not include oracle jdbc.jar
-
-To run the build.xml requires correct path to the "servlet-api.jar"
+## customize css 
+- require rebuild
+  - add css file to `src/main/webapp/css`
+  - new css will appear in theme select box.

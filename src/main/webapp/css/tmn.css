@@ -1,0 +1,29 @@
+body{
+    font-family: 'Audiowide', cursive;
+    font-weight: 400;
+    color:navy;
+}
+
+th {
+    background-color: navy;
+    color: white;
+}
+
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-weight: inherit;
+}
+
+.error {
+    font-family: inherit;
+    font-weight: inherit;
+    color: red;
+}
+
+.ui-widget-content {
+    font-family: inherit;
+    font-weight: inherit;
+    opacity: 0.8;
+}

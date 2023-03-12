@@ -1,6 +1,30 @@
-.DS_Store
-.settings/**
-.project
-.classpath
-build/*
+.gradle
+/build/
+/bin/
+!gradle/wrapper/gradle-wrapper.jar
 
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+docs/gradle-getting-started
+docs/tmp
+.vscode/

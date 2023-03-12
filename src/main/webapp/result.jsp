@@ -6,9 +6,9 @@ String message = bean.getMessage();
 if(message.length() > 0){
 
 	if(bean.isSucces()) {
-		out.print("<label id='message'>" + bean.getMessage() + "</label>");
+		out.print("<label>" + bean.getMessage() + "</label>");
 	} else {
-		out.print("<label id='error'>" + bean.getMessage() + "</label>");
+		out.print("<label class='error'>" + bean.getMessage() + "</label>");
 	}
 
 } else {

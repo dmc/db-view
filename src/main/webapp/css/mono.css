@@ -1,0 +1,30 @@
+body {
+    font-family: 'Monoton', cursive;
+    font-weight: 400;
+    background-color: #27343E;
+    color: white;
+}
+
+th {
+    background-color: #1C262D;
+    color: white;
+}
+
+input,
+select,
+textarea {
+    font-family: inherit;
+    font-weight: inherit;
+}
+
+.error {
+    font-size: 100%;
+    font: inherit;
+    color: red;
+}
+
+.ui-widget-content {
+    font-family: inherit;
+    font-weight: inherit;
+    opacity: 0.8;
+}

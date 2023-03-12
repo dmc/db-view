@@ -1,0 +1,19 @@
+plugins {
+    id 'war'
+    id 'java'
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    providedCompile 'javax.servlet:javax.servlet-api:3.1.0'
+}
+
+war {
+    webXml = file('src/main/resources/web.xml')
+}
